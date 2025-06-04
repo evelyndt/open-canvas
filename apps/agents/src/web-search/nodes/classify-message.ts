@@ -1,5 +1,5 @@
-import { ChatAnthropic } from "@langchain/anthropic";
 import { WebSearchState } from "../state.js";
+import { getChatModelForAgent } from "../../utils.js";
 import z from "zod";
 
 const CLASSIFIER_PROMPT = `You're a helpful AI assistant tasked with classifying the user's latest message.
@@ -24,10 +24,13 @@ const classificationSchema = z
 export async function classifyMessage(
   state: WebSearchState
 ): Promise<Partial<WebSearchState>> {
-  const model = new ChatAnthropic({
-    model: "claude-3-5-sonnet-latest",
-    temperature: 0,
-  }).withStructuredOutput(classificationSchema, {
+  const model = (
+    await getChatModelForAgent(
+      "web_search",
+      { configurable: {} } as any,
+      { temperature: 0 }
+    )
+  ).withStructuredOutput(classificationSchema, {
     name: "classify_message",
   });
 

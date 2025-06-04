@@ -25,6 +25,8 @@ const builder = new StateGraph(WebSearchGraphAnnotation)
   .addEdge("queryGenerator", "search")
   .addEdge("search", END);
 
-export const graph = builder.compile();
+export const graph = builder
+  .compile()
+  .withConfig({ runName: "web_search" });
 
 graph.name = "Web Search Graph";

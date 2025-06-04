@@ -26,6 +26,7 @@ import {
   TEMPERATURE_EXCLUDED_MODELS,
   LANGCHAIN_USER_ONLY_MODELS,
 } from "@opencanvas/shared/models";
+import { AgentName, getAgentModelName } from "@opencanvas/shared/agentModels";
 import { createClient, Session, User } from "@supabase/supabase-js";
 
 export const formatReflections = (
@@ -336,6 +337,23 @@ async function getUserFromConfig(
 export function isUsingO1MiniModel(config: LangGraphRunnableConfig) {
   const { modelName } = getModelConfig(config);
   return modelName.includes("o1-mini");
+}
+
+export async function getChatModelForAgent(
+  agent: AgentName,
+  config: LangGraphRunnableConfig,
+  extra?: { temperature?: number; maxTokens?: number; isToolCalling?: boolean }
+): Promise<ReturnType<typeof initChatModel>> {
+  const customModelName =
+    (config.configurable?.customModelName as string) || getAgentModelName(agent);
+
+  return await getModelFromConfig(
+    {
+      ...config,
+      configurable: { ...config.configurable, customModelName },
+    },
+    extra
+  );
 }
 
 export async function getModelFromConfig(
