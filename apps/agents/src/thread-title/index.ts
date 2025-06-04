@@ -4,7 +4,6 @@ import {
   StateGraph,
 } from "@langchain/langgraph";
 import { Client } from "@langchain/langgraph-sdk";
-import { ChatOpenAI } from "@langchain/openai";
 import { z } from "zod";
 import {
   getArtifactContent,
@@ -15,6 +14,7 @@ import {
   TitleGenerationAnnotation,
   TitleGenerationReturnType,
 } from "./state.js";
+import { getChatModelForAgent } from "../utils.js";
 
 export const generateTitle = async (
   state: typeof TitleGenerationAnnotation.State,
@@ -34,10 +34,9 @@ export const generateTitle = async (
     }),
   };
 
-  const model = new ChatOpenAI({
-    model: "gpt-4o-mini",
-    temperature: 0,
-  }).bindTools([generateTitleTool], {
+  const model = (
+    await getChatModelForAgent("thread_title", config, { temperature: 0 })
+  ).bindTools([generateTitleTool], {
     tool_choice: "generate_title",
   });
 

@@ -1,9 +1,4 @@
-import { ChatAnthropic } from "@langchain/anthropic";
-import {
-  type LangGraphRunnableConfig,
-  StateGraph,
-  START,
-} from "@langchain/langgraph";
+import { type LangGraphRunnableConfig, StateGraph, START } from "@langchain/langgraph";
 import {
   ReflectionGraphAnnotation,
   ReflectionGraphReturnType,
@@ -11,7 +6,7 @@ import {
 import { Reflections } from "@opencanvas/shared/types";
 import { REFLECT_SYSTEM_PROMPT, REFLECT_USER_PROMPT } from "./prompts.js";
 import { z } from "zod";
-import { ensureStoreInConfig, formatReflections } from "../utils.js";
+import { ensureStoreInConfig, formatReflections, getChatModelForAgent } from "../utils.js";
 import {
   getArtifactContent,
   isArtifactMarkdownContent,
@@ -47,10 +42,9 @@ export const reflect = async (
     }),
   };
 
-  const model = new ChatAnthropic({
-    model: "claude-3-5-sonnet-20240620",
+  const model = (await getChatModelForAgent("reflection", config, {
     temperature: 0,
-  }).bindTools([generateReflectionTool], {
+  })).bindTools([generateReflectionTool], {
     tool_choice: "generate_reflections",
   });
 

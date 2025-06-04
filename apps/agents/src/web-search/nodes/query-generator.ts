@@ -1,7 +1,6 @@
 import { format } from "date-fns";
-import { ChatAnthropic } from "@langchain/anthropic";
 import { WebSearchState } from "../state.js";
-import { formatMessages } from "../../utils.js";
+import { formatMessages, getChatModelForAgent } from "../../utils.js";
 
 const QUERY_GENERATOR_PROMPT = `You're a helpful AI assistant tasked with writing a query to search the web.
 You're provided with a list of messages between a user and an AI assistant.
@@ -24,10 +23,11 @@ Respond ONLY with the search query, and nothing else.`;
 export async function queryGenerator(
   state: WebSearchState
 ): Promise<Partial<WebSearchState>> {
-  const model = new ChatAnthropic({
-    model: "claude-3-5-sonnet-latest",
-    temperature: 0,
-  });
+  const model = await getChatModelForAgent(
+    "web_search",
+    { configurable: {} } as any,
+    { temperature: 0 }
+  );
 
   const additionalContext = `The current date is ${format(new Date(), "PPpp")}`;
 
