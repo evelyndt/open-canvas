@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { ArtifactMarkdownV3 } from "@opencanvas/shared/types";
-import "@blocknote/core/fonts/inter.css";
 import {
   getDefaultReactSlashMenuItems,
   SuggestionMenuController,
