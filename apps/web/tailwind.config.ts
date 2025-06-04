@@ -122,20 +122,22 @@ const config: Config = {
   				'`"Courier New"`',
   				'`monospace`'
   			],
-  			sans: [
-  				'Inter',
-  				'-apple-system',
-  				'BlinkMacSystemFont',
-  				'Segoe UI',
-  				'Roboto',
-  				'Helvetica',
-  				'Arial',
-  				'sans-serif',
-  				'Apple Color Emoji',
-  				'Segoe UI Emoji',
-  				'Segoe UI Symbol'
-  			]
-  		},
+                        sans: [
+                                'EB Garamond',
+                                'serif',
+                                'Inter',
+                                '-apple-system',
+                                'BlinkMacSystemFont',
+                                'Segoe UI',
+                                'Roboto',
+                                'Helvetica',
+                                'Arial',
+                                'sans-serif',
+                                'Apple Color Emoji',
+                                'Segoe UI Emoji',
+                                'Segoe UI Symbol'
+                        ]
+                },
   		letterSpacing: {
   			tighter: '-0.04em'
   		}
