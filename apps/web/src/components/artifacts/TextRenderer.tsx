@@ -17,6 +17,14 @@ import { Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
 import { Textarea } from "../ui/textarea";
 import { cn } from "@/lib/utils";
+import { EB_Garamond } from "next/font/google";
+
+// Load EB Garamond for use specifically within the BlockNote editor so the
+// canvas matches the rest of the application's typography.
+const garamond = EB_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 const cleanText = (text: string) => {
   return text.replaceAll("\\\n", "\n");
@@ -289,6 +297,7 @@ export function TextRendererComponent(props: TextRendererProps) {
             editor={editor}
             className={cn(
               isStreaming && !firstTokenReceived ? "pulse-text" : "",
+              garamond.className,
               "custom-blocknote-theme"
             )}
           >

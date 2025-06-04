@@ -631,9 +631,11 @@ export type ALL_MODEL_NAMES =
   | OLLAMA_MODEL_NAMES
   | GROQ_MODEL_NAMES;
 
-export const DEFAULT_MODEL_NAME: ALL_MODEL_NAMES = OPENAI_MODELS[1].name;
+// Default to Gemini to encourage usage of Google's latest models. This constant
+// is used anywhere a model must be preselected before the user makes a choice.
+export const DEFAULT_MODEL_NAME: ALL_MODEL_NAMES = GEMINI_MODELS[0].name;
 export const DEFAULT_MODEL_CONFIG: CustomModelConfig = {
-  ...OPENAI_MODELS[1].config,
-  temperatureRange: { ...OPENAI_MODELS[1].config.temperatureRange },
-  maxTokens: { ...OPENAI_MODELS[1].config.maxTokens },
+  ...GEMINI_MODELS[0].config,
+  temperatureRange: { ...GEMINI_MODELS[0].config.temperatureRange },
+  maxTokens: { ...GEMINI_MODELS[0].config.maxTokens },
 };
