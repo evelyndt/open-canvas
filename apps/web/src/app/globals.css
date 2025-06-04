@@ -153,6 +153,18 @@ a {
   --bn-colors-editor-text: #3f3f3f;
   /* Override BlockNote's default font to match the Garamond theme. */
   --bn-font-family: "EB Garamond", serif;
+  /* Ensure the editor inherits the Garamond stack. */
+  font-family: var(--bn-font-family) !important;
+}
+
+/*
+ * BlockNote scopes some rules to internal elements such as
+ * `.bn-editor` and `.ProseMirror`. Reinforce the font-family
+ * there to avoid fallback to the default sans-serif stack.
+ */
+.custom-blocknote-theme .bn-editor,
+.custom-blocknote-theme .bn-editor .ProseMirror {
+  font-family: var(--bn-font-family) !important;
 }
 
 .custom-blocknote-theme a {
