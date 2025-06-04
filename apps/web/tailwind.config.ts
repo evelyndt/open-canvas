@@ -106,11 +106,15 @@ const config: Config = {
   				'5': 'hsl(var(--chart-5))'
   			}
   		},
-  		fontFamily: {
-  			mono: [
-  				'`"Fira Code"`',
-  				'`ui-monospace`',
-  				'`SFMono-Regular`',
+                fontFamily: {
+                        garamond: [
+                                'EB Garamond',
+                                'serif'
+                        ],
+                        mono: [
+                                '`"Fira Code"`',
+                                '`ui-monospace`',
+                                '`SFMono-Regular`',
   				'`Menlo`',
   				'`Monaco`',
   				'`Consolas`',
