@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { EB_Garamond } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
-const inter = Inter({
+// Load EB Garamond via the optimized Next.js font loader.
+const garamond = EB_Garamond({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -20,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-screen">
-      <body className={cn("min-h-full", inter.className)}>
+      <body className={cn("min-h-full", garamond.className)}>
         <NuqsAdapter>{children}</NuqsAdapter>
       </body>
     </html>

@@ -106,11 +106,15 @@ const config: Config = {
   				'5': 'hsl(var(--chart-5))'
   			}
   		},
-  		fontFamily: {
-  			mono: [
-  				'`"Fira Code"`',
-  				'`ui-monospace`',
-  				'`SFMono-Regular`',
+                fontFamily: {
+                        garamond: [
+                                'EB Garamond',
+                                'serif'
+                        ],
+                        mono: [
+                                '`"Fira Code"`',
+                                '`ui-monospace`',
+                                '`SFMono-Regular`',
   				'`Menlo`',
   				'`Monaco`',
   				'`Consolas`',
@@ -118,20 +122,22 @@ const config: Config = {
   				'`"Courier New"`',
   				'`monospace`'
   			],
-  			sans: [
-  				'Inter',
-  				'-apple-system',
-  				'BlinkMacSystemFont',
-  				'Segoe UI',
-  				'Roboto',
-  				'Helvetica',
-  				'Arial',
-  				'sans-serif',
-  				'Apple Color Emoji',
-  				'Segoe UI Emoji',
-  				'Segoe UI Symbol'
-  			]
-  		},
+                        sans: [
+                                'EB Garamond',
+                                'serif',
+                                'Inter',
+                                '-apple-system',
+                                'BlinkMacSystemFont',
+                                'Segoe UI',
+                                'Roboto',
+                                'Helvetica',
+                                'Arial',
+                                'sans-serif',
+                                'Apple Color Emoji',
+                                'Segoe UI Emoji',
+                                'Segoe UI Symbol'
+                        ]
+                },
   		letterSpacing: {
   			tighter: '-0.04em'
   		}
