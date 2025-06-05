@@ -92,6 +92,42 @@ export function useStore() {
     return success;
   };
 
+  const updateReflections = async (
+    assistantId: string,
+    newReflections: Reflections
+  ): Promise<boolean> => {
+    const res = await fetch("/api/store/put", {
+      method: "POST",
+      body: JSON.stringify({
+        namespace: ["memories", assistantId],
+        key: "reflection",
+        value: newReflections,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      return false;
+    }
+
+    const { success } = await res.json();
+    if (success) {
+      setReflections({
+        ...newReflections,
+        assistantId,
+        updatedAt: new Date(),
+      });
+    } else {
+      toast({
+        title: "Failed to update reflections",
+        variant: "destructive",
+      });
+    }
+    return success;
+  };
+
   const getCustomQuickActions = async (
     userId: string
   ): Promise<CustomQuickAction[] | undefined> => {
@@ -293,6 +329,7 @@ export function useStore() {
     reflections,
     isLoadingQuickActions,
     deleteReflections,
+    updateReflections,
     getReflections,
     deleteCustomQuickAction,
     getCustomQuickActions,
