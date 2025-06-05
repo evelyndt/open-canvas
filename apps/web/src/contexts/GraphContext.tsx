@@ -314,16 +314,11 @@ export function GraphProvider({ children }: { children: ReactNode }) {
     };
     // Add check for multiple defined fields
     const fieldsToCheck = [
-      input.highlightedCode,
       input.highlightedText,
       input.language,
       input.artifactLength,
       input.regenerateWithEmojis,
       input.readingLevel,
-      input.addComments,
-      input.addLogs,
-      input.fixBugs,
-      input.portLanguage,
       input.customQuickActionId,
     ];
 

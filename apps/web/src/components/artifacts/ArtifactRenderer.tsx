@@ -9,8 +9,7 @@ import { EditorView } from "@codemirror/view";
 import { HumanMessage } from "@langchain/core/messages";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { ActionsToolbar, CodeToolBar } from "./actions_toolbar";
-import { CodeRenderer } from "./CodeRenderer";
+import { ActionsToolbar } from "./actions_toolbar";
 import { TextRenderer } from "./TextRenderer";
 import { CustomQuickActions } from "./actions_toolbar/custom";
 import { getArtifactContent } from "@opencanvas/shared/utils/artifacts";
@@ -338,19 +337,13 @@ function ArtifactRendererComponent(props: ArtifactRendererProps) {
             onMouseEnter={() => setIsHoveringOverArtifact(true)}
             onMouseLeave={() => setIsHoveringOverArtifact(false)}
           >
-            {currentArtifactContent.type === "text" ? (
+            {currentArtifactContent.type === "text" && (
               <TextRenderer
                 isInputVisible={isInputVisible}
                 isEditing={props.isEditing}
                 isHovering={isHoveringOverArtifact}
               />
-            ) : null}
-            {currentArtifactContent.type === "code" ? (
-              <CodeRenderer
-                editorRef={editorRef}
-                isHovering={isHoveringOverArtifact}
-              />
-            ) : null}
+            )}
           </div>
           <div
             ref={highlightLayerRef}
@@ -379,21 +372,12 @@ function ArtifactRendererComponent(props: ArtifactRendererProps) {
         user={user}
         isTextSelected={isSelectionActive || selectedBlocks !== undefined}
       />
-      {currentArtifactContent.type === "text" ? (
+      {currentArtifactContent.type === "text" && (
         <ActionsToolbar
           streamMessage={streamMessage}
           isTextSelected={isSelectionActive || selectedBlocks !== undefined}
         />
-      ) : null}
-      {currentArtifactContent.type === "code" ? (
-        <CodeToolBar
-          streamMessage={streamMessage}
-          isTextSelected={isSelectionActive || selectedBlocks !== undefined}
-          language={
-            currentArtifactContent.language as ProgrammingLanguageOptions
-          }
-        />
-      ) : null}
+      )}
     </div>
   );
 }

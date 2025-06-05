@@ -53,14 +53,6 @@ export async function generatePath(
     }
   }
 
-  if (state.highlightedCode) {
-    return {
-      next: "updateArtifact",
-      ...(newMessages.length
-        ? { messages: newMessages, _messages: newMessages }
-        : {}),
-    };
-  }
   if (state.highlightedText) {
     return {
       next: "updateHighlightedText",
@@ -84,19 +76,6 @@ export async function generatePath(
     };
   }
 
-  if (
-    state.addComments ||
-    state.addLogs ||
-    state.portLanguage ||
-    state.fixBugs
-  ) {
-    return {
-      next: "rewriteCodeArtifactTheme",
-      ...(newMessages.length
-        ? { messages: newMessages, _messages: newMessages }
-        : {}),
-    };
-  }
 
   if (state.customQuickActionId) {
     return {

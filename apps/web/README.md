@@ -8,15 +8,15 @@ Open Canvas is an open source web application for collaborating with agents to b
 
 1. **Open Source**: All the code, from the frontend, to the content generation agent, to the reflection agent is open source and MIT licensed.
 2. **Built in memory**: Open Canvas ships out of the box with a [reflection agent](https://langchain-ai.github.io/langgraphjs/tutorials/reflection/reflection/) which stores style rules and user insights in a [shared memory store](https://langchain-ai.github.io/langgraphjs/concepts/memory/). This allows Open Canvas to remember facts about you across sessions.
-3. **Start from existing documents**: Open Canvas allows users to start with a blank text, or code editor in the language of their choice, allowing you to start the session with your existing content, instead of being forced to start with a chat interaction. We believe this is an ideal UX because many times you will already have some content to start with, and want to iterate on-top of it.
+3. **Start from existing documents**: Open Canvas allows users to start with a blank markdown document so you can begin with your existing content instead of a chat interaction.
 
 ## Features
 
 - **Memory**: Open Canvas has a built in memory system which will automatically generate reflections and memories on you, and your chat history. These are then included in subsequent chat interactions to give a more personalized experience.
 - **Custom quick actions**: Custom quick actions allow you to define your own prompts which are tied to your user, and persist across sessions. These then can be easily invoked through a single click, and apply to the artifact you're currently viewing.
-- **Pre-built quick actions**: There are also a series of pre-built quick actions for common writing and coding tasks that are always available.
+- **Pre-built quick actions**: There are also a series of pre-built quick actions for common writing tasks that are always available.
 - **Artifact versioning**: All artifacts have a "version" tied to them, allowing you to travel back in time and see previous versions of your artifact.
-- **Code, Markdown, or both**: The artifact view allows for viewing and editing both code, and markdown. You can even have chats which generate code, and markdown artifacts, and switch between them.
+- **Markdown only**: The artifact view is focused exclusively on markdown documents.
 - **Live markdown rendering & editing**: Open Canvas's markdown editor allows you to view the rendered markdown while you're editing, without having to toggle back and fourth.
 
 ## Setup locally
@@ -129,7 +129,7 @@ If you'd like to add a new model, follow these simple steps:
    > - 4b. Generate a followup message (happens automatically after generating an artifact)
    > - 4c. Update an artifact via a message in chat
    > - 4d. Update an artifact via a quick action
-   > - 4e. Repeat for text/code (ensure both work)
+  > - 4e. Repeat for text updates to ensure they work
 
 ### Local Ollama models
 
