@@ -217,11 +217,6 @@ export interface GraphInput {
   artifactLength?: ArtifactLengthOptions;
   regenerateWithEmojis?: boolean;
   readingLevel?: ReadingLevelOptions;
-
-  addComments?: boolean;
-  addLogs?: boolean;
-  portLanguage?: ProgrammingLanguageOptions;
-  fixBugs?: boolean;
   customQuickActionId?: string;
 
   webSearchEnabled?: boolean;
