@@ -8,7 +8,8 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { BrainCog, Loader } from "lucide-react";
+import { BrainCog, Loader, Trash2, Plus, Pencil } from "lucide-react";
+import { Input } from "../ui/input";
 import { ConfirmClearDialog } from "./ConfirmClearDialog";
 import { TooltipIconButton } from "../ui/assistant-ui/tooltip-icon-button";
 import { TighterText } from "../ui/header";
@@ -61,12 +62,16 @@ interface ReflectionsDialogProps {
 export function ReflectionsDialog(props: ReflectionsDialogProps) {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [localStyleRules, setLocalStyleRules] = useState<string[]>([]);
+  const [localContent, setLocalContent] = useState<string[]>([]);
   const { selectedAssistant } = props;
   const {
     isLoadingReflections,
     reflections,
     getReflections,
     deleteReflections,
+    updateReflections,
   } = useStore();
 
   useEffect(() => {
@@ -94,6 +99,51 @@ export function ReflectionsDialog(props: ReflectionsDialogProps) {
     setOpen(false);
     return await deleteReflections(selectedAssistant.assistant_id);
   };
+
+  const startEditing = () => {
+    if (!reflections) return;
+    setLocalStyleRules(reflections.styleRules || []);
+    setLocalContent(reflections.content || []);
+    setIsEditing(true);
+  };
+
+  const handleSave = async () => {
+    if (!selectedAssistant) {
+      toast({
+        title: "Error",
+        description: "Assistant ID not found.",
+        variant: "destructive",
+        duration: 5000,
+      });
+      return;
+    }
+    const success = await updateReflections(selectedAssistant.assistant_id, {
+      styleRules: localStyleRules.filter((r) => r.trim().length > 0),
+      content: localContent.filter((r) => r.trim().length > 0),
+    });
+    if (success) {
+      setIsEditing(false);
+    }
+  };
+
+  const addStyleRule = () => setLocalStyleRules((rules) => [...rules, ""]);
+  const addContentRule = () => setLocalContent((rules) => [...rules, ""]);
+
+  const updateStyleRule = (index: number, value: string) =>
+    setLocalStyleRules((rules) =>
+      rules.map((r, i) => (i === index ? value : r))
+    );
+
+  const updateContentRule = (index: number, value: string) =>
+    setLocalContent((rules) =>
+      rules.map((r, i) => (i === index ? value : r))
+    );
+
+  const deleteStyleRule = (index: number) =>
+    setLocalStyleRules((rules) => rules.filter((_, i) => i !== index));
+
+  const deleteContentRule = (index: number) =>
+    setLocalContent((rules) => rules.filter((_, i) => i !== index));
 
   const iconData = (selectedAssistant?.metadata as Record<string, any>)
     ?.iconData;
@@ -161,6 +211,67 @@ export function ReflectionsDialog(props: ReflectionsDialogProps) {
             <div className="flex justify-center items-center h-32">
               <Loader className="h-8 w-8 animate-spin" />
             </div>
+          ) : isEditing ? (
+            <>
+              <div className="mb-6">
+                <TighterText className="text-xl font-light text-gray-800 sticky top-0 bg-white py-2 mb-3">
+                  Style Reflections:
+                </TighterText>
+                {localStyleRules.map((rule, index) => (
+                  <div key={index} className="flex items-center gap-2 mb-2">
+                    <Input
+                      value={rule}
+                      onChange={(e) => updateStyleRule(index, e.target.value)}
+                      className="flex-grow"
+                    />
+                    <TooltipIconButton
+                      tooltip="Delete"
+                      variant="ghost"
+                      onClick={() => deleteStyleRule(index)}
+                    >
+                      <Trash2 className="w-4 h-4 text-red-500" />
+                    </TooltipIconButton>
+                  </div>
+                ))}
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="mt-2 flex items-center gap-1"
+                  onClick={addStyleRule}
+                >
+                  <Plus className="w-4 h-4" /> Add
+                </Button>
+              </div>
+              <div className="mb-6">
+                <TighterText className="text-xl font-light text-gray-800 sticky top-0 bg-white py-2 mb-3">
+                  Content Reflections:
+                </TighterText>
+                {localContent.map((rule, index) => (
+                  <div key={index} className="flex items-center gap-2 mb-2">
+                    <Input
+                      value={rule}
+                      onChange={(e) => updateContentRule(index, e.target.value)}
+                      className="flex-grow"
+                    />
+                    <TooltipIconButton
+                      tooltip="Delete"
+                      variant="ghost"
+                      onClick={() => deleteContentRule(index)}
+                    >
+                      <Trash2 className="w-4 h-4 text-red-500" />
+                    </TooltipIconButton>
+                  </div>
+                ))}
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="mt-2 flex items-center gap-1"
+                  onClick={addContentRule}
+                >
+                  <Plus className="w-4 h-4" /> Add
+                </Button>
+              </div>
+            </>
           ) : reflections?.content || reflections?.styleRules ? (
             <>
               {reflections?.styleRules && (
@@ -201,15 +312,41 @@ export function ReflectionsDialog(props: ReflectionsDialogProps) {
           ) : null}
         </div>
         <div className="mt-6 flex justify-between">
-          {reflections?.content || reflections?.styleRules ? (
-            <ConfirmClearDialog handleDeleteReflections={handleDelete} />
-          ) : null}
-          <Button
-            onClick={() => setOpen(false)}
-            className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded shadow transition"
-          >
-            <TighterText>Close</TighterText>
-          </Button>
+          {isEditing ? (
+            <>
+              <Button onClick={handleSave} className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded shadow transition">
+                <TighterText>Save</TighterText>
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => setIsEditing(false)}
+              >
+                <TighterText>Cancel</TighterText>
+              </Button>
+            </>
+          ) : (
+            <>
+              {reflections?.content || reflections?.styleRules ? (
+                <ConfirmClearDialog handleDeleteReflections={handleDelete} />
+              ) : null}
+              {reflections && (
+                <Button
+                  variant="secondary"
+                  onClick={startEditing}
+                  className="flex items-center gap-1"
+                >
+                  <Pencil className="w-4 h-4" />
+                  <TighterText>Edit</TighterText>
+                </Button>
+              )}
+              <Button
+                onClick={() => setOpen(false)}
+                className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded shadow transition"
+              >
+                <TighterText>Close</TighterText>
+              </Button>
+            </>
+          )}
         </div>
       </DialogContent>
     </Dialog>
